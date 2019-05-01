@@ -98,7 +98,8 @@ void setup() {
   for(int i = 0; i < soilHealth.length; i++){
     for (int j = 0; j < soilHealth[i].length; j++) {
       
-      
+       soilHealth[0][2] = 24;
+       
           soilHealth[i][j] = 15;
       
       
@@ -218,7 +219,7 @@ for(int k=-8;k<8;k+=3){
     }
 
     
- 
+
 
      // Initialize soidiers and their position
    soldierX = new float[6];
@@ -335,14 +336,38 @@ void draw() {
         }
         
         
-        
+      
         
         
         }
     }
-      
-    
-
+  /*    
+    for(int i = 0; i < soilHealth.length; i++){
+      for (int j = 0; j < soilHealth[i].length; j++) {
+  
+        
+        // Change this part to show soil and stone images based on soilHealth value
+        // NOTE: To avoid errors on webpage, you can either use floor(j / 4) or (int)(j / 4) to make sure it's an integer.
+   
+        //soil life
+        /*
+        for(int state=0;state<4;state++){
+        for(int type=0;type<6;type++){
+        if(soilHealth[i][j]<(state+1)*3 && state*3+1<soilHealth[i][j]){
+        image(soils[type][state],i* SOIL_SIZE, j * SOIL_SIZE);}
+        if(soilHealth[i][j]<=45&&13<=soilHealth[i][j]){
+        image(soils[type][4],i* SOIL_SIZE, j * SOIL_SIZE);
+        }} }
+        //stone life
+        for(int state=0;state<5;state++){
+        for(int type=0;type<2;type++){
+        if(soilHealth[i][j]<(state+1)*3+15 && 15+state*3+1<soilHealth[i][j]){
+        
+        
+        }
+        }
+        }}}
+*/
     // Cabbages
     // > Remember to check if playerHealth is smaller than PLAYER_MAX_HEALTH!
     for(int i=0;i<6;i++){
@@ -363,7 +388,8 @@ void draw() {
     // If player is not moving, we have to decide what player has to do next
     if(playerMoveTimer == 0){
         if(playerRow<SOIL_ROW_COUNT-1&&soilHealth[playerCol][playerRow+1]==0){
-        
+        leftState = false;
+        rightState = false;
         
         playerMoveDirection = DOWN;
         playerMoveTimer = playerMoveDuration;
@@ -388,11 +414,14 @@ void draw() {
       for (int j = 0; j < soilHealth[i].length; j++) {
   
           if(playerRow>=0 && soilHealth[i][j]>0){
-          soilHealth[playerCol-1][playerRow]-=0.0001;
+            
+          soilHealth[playerCol-1][playerRow]-=1;
+          leftState = false;
           
           
           if(soilHealth[playerCol-1][playerRow]<0){
           soilHealth[playerCol-1][playerRow]=0;
+          leftState = true;
           }
           }
 
@@ -412,7 +441,21 @@ void draw() {
 
         // Check right boundary
         if(playerCol < SOIL_COL_COUNT - 1){
-
+                 for(int i = 0; i < soilHealth.length; i++){
+      for (int j = 0; j < soilHealth[i].length; j++) {
+  
+          if(playerRow>=0 && soilHealth[i][j]>0){
+          soilHealth[playerCol+1][playerRow]-=1;
+          playerMoveTimer = 0;
+          rightState = false;
+          
+          
+          if(soilHealth[playerCol+1][playerRow]<0){
+          soilHealth[playerCol+1][playerRow]=0;
+          rightState = true;
+          }
+          }
+      }}
           // HINT:
           // Check if "player is NOT above the ground AND there's soil on the right"
           // > If so, dig it and decrease its health
