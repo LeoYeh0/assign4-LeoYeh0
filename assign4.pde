@@ -98,7 +98,7 @@ void setup() {
   for(int i = 0; i < soilHealth.length; i++){
     for (int j = 0; j < soilHealth[i].length; j++) {
       
-       soilHealth[0][2] = 24;
+      
        
           soilHealth[i][j] = 15;
       
@@ -118,7 +118,7 @@ void setup() {
     for(int j=0;j<8;j+=4){
     int x=b;
     int y=8+j;
-    float y2=y+1;
+    
     soilHealth[x][y] =30;
     soilHealth[x+1][y] =30;
    
@@ -128,7 +128,7 @@ void setup() {
     for(int j=3;j<8;j+=4){
     int x=c;
     int y=8+j;
-    float y2=y+80;
+
     soilHealth[x][y] =30;
     soilHealth[x+1][y] =30;
     }
@@ -294,7 +294,6 @@ void draw() {
 
     // Soil
    
-     
    
     for(int i = 0; i < soilHealth.length; i++){
       for (int j = 0; j < soilHealth[i].length; j++) {
@@ -305,22 +304,7 @@ void draw() {
    
         //soil life
         
-        for(int state=0;state<4;state++){
-        for(int type=0;type<6;type++){
-        if(soilHealth[i][j]<(state+1)*3 && state*3+1<soilHealth[i][j]){
-        image(soils[type][state],i* SOIL_SIZE, j * SOIL_SIZE);}
-        if(soilHealth[i][j]<=45&&13<=soilHealth[i][j]){
-        image(soils[type][4],i* SOIL_SIZE, j * SOIL_SIZE);
-        }} }
-        //stone life
-        for(int state=0;state<5;state++){
-        for(int type=0;type<2;type++){
-        if(soilHealth[i][j]<(state+1)*3+15 && 15+state*3+1<soilHealth[i][j]){
-        
-        
-        }
-        }
-        }
+      
              int areaIndex = floor(j / 4);
         image(soils[areaIndex][4], i * SOIL_SIZE, j * SOIL_SIZE);
         if(soilHealth[i][j]==30){
@@ -334,14 +318,13 @@ void draw() {
         image(soilEmpty,i * SOIL_SIZE, j * SOIL_SIZE);
         
         }
+       
         
-        
-      
-        
-        
-        }
     }
-  /*    
+       
+        
+    }   
+   
     for(int i = 0; i < soilHealth.length; i++){
       for (int j = 0; j < soilHealth[i].length; j++) {
   
@@ -350,24 +333,43 @@ void draw() {
         // NOTE: To avoid errors on webpage, you can either use floor(j / 4) or (int)(j / 4) to make sure it's an integer.
    
         //soil life
-        /*
-        for(int state=0;state<4;state++){
-        for(int type=0;type<6;type++){
-        if(soilHealth[i][j]<(state+1)*3 && state*3+1<soilHealth[i][j]){
-        image(soils[type][state],i* SOIL_SIZE, j * SOIL_SIZE);}
+//0-3   
+        for(int k=0;k<6;k++){
+        for(int state=0;state<5;state++){
+        if(4*k<=j&&j<4*k+4){
+        if(soilHealth[i][j]<=(state+1)*3 && state*3+1<=soilHealth[i][j]){
+        image(soils[k][state],i* SOIL_SIZE, j* SOIL_SIZE);
         if(soilHealth[i][j]<=45&&13<=soilHealth[i][j]){
-        image(soils[type][4],i* SOIL_SIZE, j * SOIL_SIZE);
-        }} }
+        image(soils[k][4],i* SOIL_SIZE, j * SOIL_SIZE);
+        }}}}}
+      
+        
+        
+        
         //stone life
         for(int state=0;state<5;state++){
         for(int type=0;type<2;type++){
-        if(soilHealth[i][j]<(state+1)*3+15 && 15+state*3+1<soilHealth[i][j]){
-        
-        
+        if(soilHealth[i][j]<=(state+1)*3+15 && 15+state*3+1<=soilHealth[i][j]){
+        image(stones[0][state],i* SOIL_SIZE, j * SOIL_SIZE); 
         }
         }
-        }}}
-*/
+        }
+      
+    for(int state=0;state<5;state++){
+        for(int type=0;type<2;type++){
+        if(soilHealth[i][j]<=(state+1)*3+30 && 30+state*3+1<=soilHealth[i][j]){
+        image(stones[1][state],i* SOIL_SIZE, j * SOIL_SIZE); 
+        }
+        }
+        }
+  
+
+
+
+
+
+}}
+
     // Cabbages
     // > Remember to check if playerHealth is smaller than PLAYER_MAX_HEALTH!
     for(int i=0;i<6;i++){
@@ -410,61 +412,48 @@ void draw() {
 
         // Check left boundary
         if(playerCol > 0){
-           for(int i = 0; i < soilHealth.length; i++){
-      for (int j = 0; j < soilHealth[i].length; j++) {
-  
-          if(playerRow>=0 && soilHealth[i][j]>0){
-            
+       
+          
+          if(playerRow>=0 &&  soilHealth[playerCol-1][playerRow]>0){
           soilHealth[playerCol-1][playerRow]-=1;
-          leftState = false;
+          }else{
+           playerMoveDirection = LEFT;
+          playerMoveTimer = playerMoveDuration;
+          }
           
           
-          if(soilHealth[playerCol-1][playerRow]<0){
-          soilHealth[playerCol-1][playerRow]=0;
-          leftState = true;
-          }
-          }
+    
+          
 
           // HINT:
           // Check if "player is NOT above the ground AND there's soil on the left"
           // > If so, dig it and decrease its health
           // > Else then start moving (set playerMoveDirection and playerMoveTimer)
 
-          playerMoveDirection = LEFT;
-          playerMoveTimer = playerMoveDuration;
+         
       }
-        }}
+        
 
       }else if(rightState){
 
         groundhogDisplay = groundhogRight;
 
         // Check right boundary
-        if(playerCol < SOIL_COL_COUNT - 1){
-                 for(int i = 0; i < soilHealth.length; i++){
-      for (int j = 0; j < soilHealth[i].length; j++) {
-  
-          if(playerRow>=0 && soilHealth[i][j]>0){
+        if(playerCol<7)
+          if(playerRow>=0 &&  soilHealth[playerCol+1][playerRow]>0){
           soilHealth[playerCol+1][playerRow]-=1;
-          playerMoveTimer = 0;
-          rightState = false;
-          
-          
-          if(soilHealth[playerCol+1][playerRow]<0){
-          soilHealth[playerCol+1][playerRow]=0;
-          rightState = true;
+          }else{
+           playerMoveDirection = RIGHT;
+          playerMoveTimer = playerMoveDuration;
           }
-          }
-      }}
           // HINT:
           // Check if "player is NOT above the ground AND there's soil on the right"
           // > If so, dig it and decrease its health
           // > Else then start moving (set playerMoveDirection and playerMoveTimer)
 
-          playerMoveDirection = RIGHT;
-          playerMoveTimer = playerMoveDuration;
+          
 
-        }
+        
 
       }else if(downState){
 
@@ -477,19 +466,22 @@ void draw() {
         // and since we can only get here when the above statement is false,
         // we only have to check again if "player is NOT at the bottom" to make sure there won't be out-of-bound exception
         if(playerRow < SOIL_ROW_COUNT - 1){
-
+          if(soilHealth[playerCol][playerRow+1]>0){
+          soilHealth[playerCol][playerRow+1]-=1;
+          }
+          
+  
           // > If so, dig it and decrease its health
 
           // For requirement #3:
           // Note that player never needs to move down as it will always fall automatically,
           // so the following 2 lines can be removed once you finish requirement #3
 
-          playerMoveDirection = DOWN;
-          playerMoveTimer = playerMoveDuration;
-
+       
+        }
 
         }
-      }
+      
 
     }
 
@@ -637,7 +629,7 @@ for(int i=0;i<playerHealth;i++){
     for(int j=0;j<8;j+=4){
     int x=b;
     int y=8+j;
-    float y2=y+1;
+  
     soilHealth[x][y] =30;
     soilHealth[x+1][y] =30;
    
@@ -647,7 +639,7 @@ for(int i=0;i<playerHealth;i++){
     for(int j=3;j<8;j+=4){
     int x=c;
     int y=8+j;
-    float y2=y+80;
+    
     soilHealth[x][y] =30;
     soilHealth[x+1][y] =30;
     }
