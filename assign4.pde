@@ -545,10 +545,9 @@ void draw() {
    if(playerHealth>0){
    playerHealth--;
    // row 1 recover
-   for(int k=1;k<8;k++){
-   soilHealth[k][0] = 15;
-   soilHealth[0][0] =30;
-   } 
+  
+   soilHealth[4][0] = 15;
+  
    playerX=PLAYER_INIT_X;
    playerY=PLAYER_INIT_Y;
    playerCol = (int) (playerX / SOIL_SIZE);
