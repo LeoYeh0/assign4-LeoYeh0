@@ -358,8 +358,10 @@ void draw() {
     for(int state=0;state<5;state++){
         for(int type=0;type<2;type++){
         if(soilHealth[i][j]<=(state+1)*3+30 && 30+state*3+1<=soilHealth[i][j]){
-        image(stones[1][state],i* SOIL_SIZE, j * SOIL_SIZE); 
-        image(stones[0][4],i* SOIL_SIZE, j * SOIL_SIZE);
+         image(stones[0][4],i* SOIL_SIZE, j * SOIL_SIZE);
+          image(stones[1][state],i* SOIL_SIZE, j * SOIL_SIZE); 
+        
+       
         
         }
         }
